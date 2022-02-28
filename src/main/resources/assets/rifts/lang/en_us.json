@@ -1,0 +1,25 @@
+{
+  "item.rifts.rift_shard": "Rift shard",
+  "item.rifts.rift_eye": "Rift eye",
+
+  "block.rifts.rift_block": "Rift block",
+  "block.rifts.overworld_rift_ore": "Rift ore",
+
+  "itemGroup.rifts.general": "Rift mod",
+
+  "rifts.rift_eye.flavour_text.main": "Dit it §lblink§r ?",
+  "rifts.rift_eye.flavour_text.more_info": "§7Hold shift if you do not fear",
+  "rifts.rift_eye.flavour_text.1": "§7While in pockets :",
+  "rifts.rift_eye.flavour_text.2": "  §2give you the 'frightening' effect.",
+  "rifts.rift_eye.flavour_text.3": "§7While in a chest :",
+  "rifts.rift_eye.flavour_text.4": "  §2slowly destroys items inside.",
+  "rifts.rift_eye.flavour_text.5": "§7When chest is empty :",
+  "rifts.rift_eye.flavour_text.6": "  §2destroy the chest.",
+  "rifts.rift_eye.flavour_text.7": "§7When on the ground :",
+  "rifts.rift_eye.flavour_text.8": "  §2corrupt the block beneath it.",
+
+  "rifts.advancements.tab.name": "Rifts",
+  "rifts.advancements.tab.description": "Your first step in your nightmares",
+  "rifts.advancements.craft_rift_eye.name": "Govern them all",
+  "rifts.advancements.craft_rift_eye.description": "Acquire a rift eye"
+}

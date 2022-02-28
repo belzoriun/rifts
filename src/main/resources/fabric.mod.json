@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "rifts",
+  "version": "${version}",
+
+  "name": "Rifts mod",
+  "description": "Open breach to a new world",
+  "authors": [
+    "Belzorium"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/rifts/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.florian.rifts.Rifts"
+    ]
+  },
+  "mixins": [
+    "rifts.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.12.12",
+    "fabric": "*",
+    "minecraft": "1.18.x",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "item": "rifts:rift_eye"
+    },
+    "title": {
+      "translate": "rifts.advancements.craft_rift_eye.name"
+    },
+    "description": {
+      "translate": "rifts.advancements.craft_rift_eye.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "rifts:rifts",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "rifts:rift_eye"
+      }
+    }
+  }
+}

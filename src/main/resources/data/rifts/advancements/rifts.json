@@ -1,0 +1,31 @@
+{
+  "display": {
+    "icon": {
+      "item": "rifts:rift_shard"
+    },
+    "title": {
+      "translate": "rifts.advancements.tab.name"
+    },
+    "description":{
+      "translate": "rifts.advancements.tab.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "annouce_to_chat": true,
+    "background": "rifts:textures/blocks/rift_block.png"
+  },
+  "criteria": {
+    "requirements": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "rifts:rift_shard"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
