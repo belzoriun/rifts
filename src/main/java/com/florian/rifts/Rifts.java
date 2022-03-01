@@ -1,14 +1,19 @@
 package com.florian.rifts;
 
+import com.florian.rifts.blocks.CorruptedBlock;
 import com.florian.rifts.blocks.RiftBlock;
+import com.florian.rifts.entity.block.CorruptedBlockEntity;
 import com.florian.rifts.events.listeners.DropRiftEyeListener;
-import com.florian.rifts.items.RiftBlockItem;
-import com.florian.rifts.items.RiftEye;
-import com.florian.rifts.items.RiftOreItem;
-import com.florian.rifts.items.RiftShard;
+import com.florian.rifts.events.listeners.EyeDestroyedCorruptionListener;
+import com.florian.rifts.events.listeners.ItemOnCorruptedBlockListener;
+import com.florian.rifts.events.listeners.WalksOnCorruptBlockListener;
+import com.florian.rifts.items.*;
 import com.florian.rifts.blocks.RiftOre;
+import com.florian.rifts.util.CorruptedDamageSource;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -23,6 +28,11 @@ public class Rifts implements ModInitializer {
 
     public static String MOD_ID="rifts";
 
+    //damage sources
+    public static class DamageSources{
+        public static CorruptedDamageSource CORRUPTED = new CorruptedDamageSource();
+    }
+
     //packets identifiers
     public static class PacketsIdentifiers{
         public static Identifier PACKET_PLACE_BLOCK_ID = new Identifier(MOD_ID, "place_block");
@@ -32,6 +42,12 @@ public class Rifts implements ModInitializer {
     public static class Blocks {
         public static RiftOre RIFT_ORE = new RiftOre();
         public static RiftBlock RIFT_BLOCK = new RiftBlock();
+        public static CorruptedBlock CORRUPTED_BLOCK = new CorruptedBlock();
+    }
+
+    //entities
+    public static class Entities{
+        public static BlockEntityType<CorruptedBlockEntity> CORRUPTED_BLOCK;
     }
 
     //items
@@ -40,6 +56,7 @@ public class Rifts implements ModInitializer {
         public static RiftEye RIFT_EYE = new RiftEye();
         public static RiftBlockItem RIFT_BLOCK = new RiftBlockItem();
         public static RiftOreItem RIFT_ORE = new RiftOreItem();
+        public static CorruptedBlockItem CORRUPTED_BLOCK = new CorruptedBlockItem();
     }
 
     public static final ItemGroup MOD_GROUP = FabricItemGroupBuilder.create(new Identifier(Rifts.MOD_ID, "general"))
@@ -49,6 +66,7 @@ public class Rifts implements ModInitializer {
                 stacks.add(new ItemStack(Items.RIFT_SHARD));
                 stacks.add(new ItemStack(Blocks.RIFT_BLOCK));
                 stacks.add(new ItemStack(Items.RIFT_EYE));
+                stacks.add(new ItemStack(Items.CORRUPTED_BLOCK));
     }).build();
 
     @Override
@@ -69,6 +87,11 @@ public class Rifts implements ModInitializer {
                 HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.aboveBottom(20))); // height
         Registry.register(Registry.BLOCK, new Identifier(Rifts.MOD_ID, "overworld_rift_ore"), Blocks.RIFT_ORE);
         Registry.register(Registry.ITEM, new Identifier(Rifts.MOD_ID, "overworld_rift_ore"), Items.RIFT_ORE);
+        
+        Registry.register(Registry.BLOCK, new Identifier(Rifts.MOD_ID, "corrupted_block"), Blocks.CORRUPTED_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(Rifts.MOD_ID, "corrupted_block"), Items.CORRUPTED_BLOCK);
+        Entities.CORRUPTED_BLOCK = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MOD_ID, "corrupted_block_entity"), FabricBlockEntityTypeBuilder
+                .create(CorruptedBlockEntity::new, Blocks.CORRUPTED_BLOCK).build(null));
 
         //register items
         Registry.register(Registry.ITEM, new Identifier(Rifts.MOD_ID, "rift_eye"), Items.RIFT_EYE);
@@ -76,6 +99,10 @@ public class Rifts implements ModInitializer {
 
         //register events
         DropRiftEyeListener.registerEvent();
+        WalksOnCorruptBlockListener.registerEvent();
+        ItemOnCorruptedBlockListener.registerEvent();
+        EyeDestroyedCorruptionListener.registerEvent();
+                
 
     }
 }

@@ -4,8 +4,11 @@
 
   "block.rifts.rift_block": "Rift block",
   "block.rifts.overworld_rift_ore": "Rift ore",
+  "block.rifts.corrupted_block": "Corrupted block",
 
   "itemGroup.rifts.general": "Rift mod",
+
+  "death.attack.corrupted": "%s died from corruption",
 
   "rifts.rift_eye.flavour_text.main": "Dit it §lblink§r ?",
   "rifts.rift_eye.flavour_text.more_info": "§7Hold shift if you do not fear",

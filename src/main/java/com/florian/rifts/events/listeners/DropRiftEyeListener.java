@@ -9,6 +9,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
@@ -26,6 +27,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.packet.c2s.play.UpdateStructureBlockC2SPacket;
 import net.minecraft.network.packet.s2c.play.BlockUpdateS2CPacket;
+import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.ActionResult;
@@ -58,13 +60,11 @@ public abstract class DropRiftEyeListener {
     public static void registerEvent() {
         EVENT.register((entity) -> {
             World world = entity.world;
-            if (entity.getItemAge() > 3 * 20) {
+            if (entity.getItemAge() > 3 * 20 && !world.isClient()) {
                 entity.discard();
                 BlockPos pos = entity.getBlockPos();
                 pos = new BlockPos(pos.getX(), pos.getY() - 1, pos.getZ());
-                PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
-                passedData.writeBlockPos(pos);
-                ClientPlayNetworking.createC2SPacket(Rifts.PacketsIdentifiers.PACKET_PLACE_BLOCK_ID, passedData);
+                world.setBlockState(pos, Blocks.BLACK_WOOL.getDefaultState(), Block.NOTIFY_ALL);
             }
             return ActionResult.PASS;
         });
