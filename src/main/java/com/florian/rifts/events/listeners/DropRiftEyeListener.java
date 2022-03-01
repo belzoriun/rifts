@@ -1,6 +1,7 @@
 package com.florian.rifts.events.listeners;
 
 import com.florian.rifts.Rifts;
+import com.florian.rifts.entity.block.CorruptedBlockEntity;
 import com.florian.rifts.events.callbacks.DropRiftEye;
 import com.florian.rifts.items.RiftEye;
 import io.netty.buffer.Unpooled;
@@ -35,6 +36,7 @@ import net.minecraft.util.TickDurationMonitor;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
@@ -64,7 +66,18 @@ public abstract class DropRiftEyeListener {
                 entity.discard();
                 BlockPos pos = entity.getBlockPos();
                 pos = new BlockPos(pos.getX(), pos.getY() - 1, pos.getZ());
-                world.setBlockState(pos, Blocks.BLACK_WOOL.getDefaultState(), Block.NOTIFY_ALL);
+                BlockState oldBlock = world.getBlockState(pos);
+                if(oldBlock.getBlock().equals(Rifts.Blocks.CORRUPTED_BLOCK)) {
+                    world.setBlockState(pos, Rifts.Blocks.CORRUPTED_BLOCK.getDefaultState(), Block.NOTIFY_ALL);
+                    BlockEntity bentity = world.getBlockEntity(pos);
+                    if (bentity instanceof CorruptedBlockEntity) {
+                        CorruptedBlockEntity centity = ((CorruptedBlockEntity) bentity);
+                        centity.setOldBlock(Registry.BLOCK.getId(oldBlock.getBlock()));
+                        centity.markDirty();
+                    }
+                    Rifts.Blocks.CORRUPTED_BLOCK.onPlaced(world, pos,
+                            Rifts.Blocks.CORRUPTED_BLOCK.getDefaultState(), null, new ItemStack(Rifts.Items.CORRUPTED_BLOCK));
+                }
             }
             return ActionResult.PASS;
         });

@@ -1,8 +1,6 @@
 {
   "replace": false,
   "values": [
-    "rifts:rift_block",
-    "rifts:overworld_rift_ore"
   ]
 }
 

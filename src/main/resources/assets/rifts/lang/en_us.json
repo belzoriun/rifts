@@ -6,7 +6,7 @@
   "block.rifts.overworld_rift_ore": "Rift ore",
   "block.rifts.corrupted_block": "Corrupted block",
 
-  "itemGroup.rifts.general": "Rift mod",
+  "itemGroup.rifts.rifts": "Rift mod",
 
   "death.attack.corrupted": "%s died from corruption",
 

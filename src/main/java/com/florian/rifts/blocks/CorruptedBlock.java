@@ -1,33 +1,23 @@
 package com.florian.rifts.blocks;
 
 import com.florian.rifts.Rifts;
-import com.florian.rifts.entity.block.CorruptedBlockEntity;
-import com.florian.rifts.events.callbacks.ItemOnCorruptedBlock;
-import com.florian.rifts.events.listeners.EyeDestroyedCorruptionListener;
-import com.florian.rifts.events.listeners.ItemOnCorruptedBlockListener;
-import com.florian.rifts.util.CorruptBlockManager;
-import com.florian.rifts.util.ICorruptedElement;
+import com.florian.rifts.util.AbstractCorruptedBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.IntProperty;
-import net.minecraft.state.property.Property;
-import net.minecraft.util.Identifier;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.Material;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.TickPriority;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class CorruptedBlock extends Block implements BlockEntityProvider, ICorruptedElement {
+public class CorruptedBlock extends AbstractCorruptedBlock {
+
+    private final Map<Block, Block> backwardTransformingMap = new HashMap<>();
 
     public CorruptedBlock() {
         super(FabricBlockSettings.of(Material.AGGREGATE)
@@ -40,26 +30,18 @@ public class CorruptedBlock extends Block implements BlockEntityProvider, ICorru
                 .with(DOES_DROP_ITEM, false)
         );
 
-    }
-    @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new CorruptedBlockEntity(pos, state);
-    }
+        backwardTransformingMap.put(Blocks.DIRT, Blocks.COARSE_DIRT);
+        backwardTransformingMap.put(Blocks.GRASS_BLOCK, Blocks.COARSE_DIRT);
+        backwardTransformingMap.put(Blocks.STONE, Blocks.COBBLESTONE);
+        backwardTransformingMap.put(Blocks.DEEPSLATE, Blocks.COBBLED_DEEPSLATE);
+        backwardTransformingMap.put(Blocks.GLASS, Blocks.SAND);
+        backwardTransformingMap.put(Blocks.ACACIA_LOG, Blocks.STRIPPED_ACACIA_LOG);
+        backwardTransformingMap.put(Blocks.BIRCH_LOG, Blocks.STRIPPED_BIRCH_LOG);
+        backwardTransformingMap.put(Blocks.DARK_OAK_LOG, Blocks.STRIPPED_DARK_OAK_LOG);
+        backwardTransformingMap.put(Blocks.JUNGLE_LOG, Blocks.STRIPPED_JUNGLE_LOG);
+        backwardTransformingMap.put(Blocks.OAK_LOG, Blocks.STRIPPED_OAK_LOG);
+        backwardTransformingMap.put(Blocks.SPRUCE_LOG, Blocks.STRIPPED_SPRUCE_LOG);
 
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(new Property[]{SPREAD_WIDTH, ITEMS_EATEN, DISCARDING, DOES_DROP_ITEM, EYE_ID});
-    }
-
-    @Override
-    public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-        world.createAndScheduleBlockTick(pos, this, 0, TickPriority.HIGH);
-        BlockEntity bentity = world.getBlockEntity(pos);
-        if(bentity instanceof CorruptedBlockEntity) {
-            CorruptedBlockEntity entity = ((CorruptedBlockEntity) bentity);
-            entity.setOldBlock(Registry.BLOCK.getId(state.getBlock()));
-            entity.markDirty();
-        }
     }
 
     public List<BlockPos> getNeighbors(BlockPos pos)
@@ -75,46 +57,21 @@ public class CorruptedBlock extends Block implements BlockEntityProvider, ICorru
     }
 
     @Override
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random)
-    {
-        if(!world.isClient() )
+    public Block backwardReplacementMap(World world, Block old) {
+        if(backwardTransformingMap.containsKey(old))
         {
-            if(state.get(DISCARDING)) {
-                BlockEntity bentity = world.getBlockEntity(pos);
-                if(bentity instanceof CorruptedBlockEntity) {
-                    CorruptedBlockEntity entity = ((CorruptedBlockEntity) bentity);
-                    Identifier id = entity.getOldBlock();
-                    if(id != null) {
-                        Block block = Registry.BLOCK.get(id);
-                        if(state.get(DOES_DROP_ITEM))
-                        {
-                            EyeDestroyedCorruptionListener.EVENT.invoker().interact(world, world.getBlockState(pos).get(EYE_ID));
-                            world.setBlockState(pos, world.getBlockState(pos).with(DOES_DROP_ITEM, false), Block.NOTIFY_ALL);
-                        }
-                        world.setBlockState(pos, block.getDefaultState(), Block.NOTIFY_ALL);
-                    }
-                }
-            }
-            else {
-                List<BlockPos> neighbors = getNeighbors(pos);
-                int stage = state.get(SPREAD_WIDTH);
-                boolean canCorrupt = false;
-                for (BlockPos neight : neighbors) {
-                    double chanceBound = SPREAD_VELOCITY*Math.exp(-stage*(1/-(MAX_SPREAD_WIDTH/2)));
-                    if (new Random().nextInt(100) < chanceBound && stage>0) {
-                        if(CorruptBlockManager.corrupt(world, stage, neight))
-                            world.createAndScheduleBlockTick(neight, world.getBlockState(neight).getBlock(), 5, TickPriority.HIGH);
-                    }
-                }
-                if(CorruptBlockManager.canCorrupt(world, pos))
-                    world.createAndScheduleBlockTick(pos, this, 5, TickPriority.HIGH);
-            }
+            return backwardTransformingMap.get(old);
         }
+        return old;
     }
 
-    public static boolean tryMakeChild(World world, BlockState state)
-    {
-        //make a new block spawn somewhere
-        return true;
+    @Override
+    public AbstractCorruptedBlock replacementMap(World world, BlockPos pos) {
+        Block toCorrupt = world.getBlockState(pos).getBlock();
+        if(!toCorrupt.equals(Blocks.AIR)
+                && toCorrupt.getDefaultState().isFullCube(world, pos)
+                && !(world.getBlockState(pos).getBlock() instanceof AbstractCorruptedBlock))
+            return Rifts.Blocks.CORRUPTED_BLOCK;
+        return null;
     }
 }

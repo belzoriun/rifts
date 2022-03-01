@@ -2,40 +2,34 @@ package com.florian.rifts;
 
 import com.florian.rifts.blocks.CorruptedBlock;
 import com.florian.rifts.blocks.RiftBlock;
+import com.florian.rifts.blocks.RiftOre;
 import com.florian.rifts.entity.block.CorruptedBlockEntity;
 import com.florian.rifts.events.listeners.DropRiftEyeListener;
 import com.florian.rifts.events.listeners.EyeDestroyedCorruptionListener;
 import com.florian.rifts.events.listeners.ItemOnCorruptedBlockListener;
 import com.florian.rifts.events.listeners.WalksOnCorruptBlockListener;
 import com.florian.rifts.items.*;
-import com.florian.rifts.blocks.RiftOre;
 import com.florian.rifts.util.CorruptedDamageSource;
+import com.florian.rifts.util.GroupManager;
+import com.florian.rifts.util.registerer.block.BlockRegisterer;
+import com.florian.rifts.util.registerer.item.ItemRegisterer;
+import com.florian.rifts.util.registerer.ore.OrePlacementType;
+import com.florian.rifts.util.registerer.ore.OreRegisterer;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.YOffset;
-import net.minecraft.world.gen.decorator.CountPlacementModifier;
-import net.minecraft.world.gen.decorator.HeightRangePlacementModifier;
-import net.minecraft.world.gen.decorator.SquarePlacementModifier;
-import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.feature.OreConfiguredFeatures;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Rifts implements ModInitializer {
 
     public static String MOD_ID="rifts";
+    public static final Logger logger = LoggerFactory.getLogger(MOD_ID);
 
     //damage sources
     public static class DamageSources{
         public static CorruptedDamageSource CORRUPTED = new CorruptedDamageSource();
-    }
-
-    //packets identifiers
-    public static class PacketsIdentifiers{
-        public static Identifier PACKET_PLACE_BLOCK_ID = new Identifier(MOD_ID, "place_block");
     }
 
     //blocks
@@ -47,7 +41,7 @@ public class Rifts implements ModInitializer {
 
     //entities
     public static class Entities{
-        public static BlockEntityType<CorruptedBlockEntity> CORRUPTED_BLOCK;
+        public static BlockEntityType CORRUPTED_BLOCK;
     }
 
     //items
@@ -59,50 +53,54 @@ public class Rifts implements ModInitializer {
         public static CorruptedBlockItem CORRUPTED_BLOCK = new CorruptedBlockItem();
     }
 
-    public static final ItemGroup MOD_GROUP = FabricItemGroupBuilder.create(new Identifier(Rifts.MOD_ID, "general"))
-            .icon(()->new ItemStack(Items.RIFT_SHARD.asItem()))
-            .appendItems((stacks)-> {
-                stacks.add(new ItemStack(Blocks.RIFT_ORE));
-                stacks.add(new ItemStack(Items.RIFT_SHARD));
-                stacks.add(new ItemStack(Blocks.RIFT_BLOCK));
-                stacks.add(new ItemStack(Items.RIFT_EYE));
-                stacks.add(new ItemStack(Items.CORRUPTED_BLOCK));
-    }).build();
-
     @Override
     public void onInitialize() {
 
-        //register blocks
-        Registry.register(Registry.BLOCK, new Identifier(Rifts.MOD_ID, "rift_block"), Blocks.RIFT_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier(Rifts.MOD_ID, "rift_block"), Items.RIFT_BLOCK);
+        GroupManager modGroup = new GroupManager("rifts", Items.RIFT_SHARD);
 
-        ConfiguredFeature<?,?> riftOreFeature = Feature.ORE
-                .configure(new OreFeatureConfig(
-                        OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES,
-                        Blocks.RIFT_ORE.getDefaultState(),
-                        3)); // vein size
-        PlacedFeature riftOrePlaceFeature = riftOreFeature.withPlacement(
-                CountPlacementModifier.of(2), // number of veins per chunk
-                SquarePlacementModifier.of(), // spreading horizontally
-                HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.aboveBottom(20))); // height
-        Registry.register(Registry.BLOCK, new Identifier(Rifts.MOD_ID, "overworld_rift_ore"), Blocks.RIFT_ORE);
-        Registry.register(Registry.ITEM, new Identifier(Rifts.MOD_ID, "overworld_rift_ore"), Items.RIFT_ORE);
-        
-        Registry.register(Registry.BLOCK, new Identifier(Rifts.MOD_ID, "corrupted_block"), Blocks.CORRUPTED_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier(Rifts.MOD_ID, "corrupted_block"), Items.CORRUPTED_BLOCK);
-        Entities.CORRUPTED_BLOCK = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MOD_ID, "corrupted_block_entity"), FabricBlockEntityTypeBuilder
-                .create(CorruptedBlockEntity::new, Blocks.CORRUPTED_BLOCK).build(null));
+        //register blocks
+        new BlockRegisterer("rift_block")
+            .registerBlock(Blocks.RIFT_BLOCK)
+            .setOptions(options->options.withItem(Items.RIFT_BLOCK))
+            .addToGroup(modGroup)
+            .register();
+
+        new OreRegisterer("overworld_rift_ore")
+            .registerBlock(Blocks.RIFT_ORE)
+            .setOptions(options->
+                options.isSpreadingHorizontally()
+                .setBaseConfiguration(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES)
+                .setPlacement(OrePlacementType.UNIFORM, YOffset.getBottom(), YOffset.aboveBottom(20))
+                .setVeinSize(3)
+                .setVeinsPerChunk(1)
+                .withItem(Items.RIFT_ORE))
+            .addToGroup(modGroup)
+            .register();
+
+        Entities.CORRUPTED_BLOCK = new BlockRegisterer("corrupted_block")
+            .registerBlock(Blocks.CORRUPTED_BLOCK)
+            .setOptions(options->
+                options.withItem(Items.CORRUPTED_BLOCK)
+                .withEntity(()-> CorruptedBlockEntity::new))
+            .addToGroup(modGroup)
+            .register();
 
         //register items
-        Registry.register(Registry.ITEM, new Identifier(Rifts.MOD_ID, "rift_eye"), Items.RIFT_EYE);
-        Registry.register(Registry.ITEM, new Identifier(Rifts.MOD_ID, "rift_shard"), Items.RIFT_SHARD);
+        new ItemRegisterer("rift_eye")
+            .useItem(Items.RIFT_EYE)
+            .addToGroup(modGroup)
+            .register();
+        new ItemRegisterer("rift_shard")
+            .useItem(Items.RIFT_SHARD)
+            .addToGroup(modGroup)
+            .register();
+
+        modGroup.createGroup();
 
         //register events
         DropRiftEyeListener.registerEvent();
         WalksOnCorruptBlockListener.registerEvent();
         ItemOnCorruptedBlockListener.registerEvent();
         EyeDestroyedCorruptionListener.registerEvent();
-                
-
     }
 }
