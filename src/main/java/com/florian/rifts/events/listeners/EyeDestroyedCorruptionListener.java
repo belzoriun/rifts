@@ -10,6 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.ActionResult;
 
+import java.util.Random;
+
 public class EyeDestroyedCorruptionListener {
     public static Event<EyeDestroyedCorruption> EVENT = EventFactory.createArrayBacked(EyeDestroyedCorruption.class,
             (listeners) -> (world, eyeId) -> {
@@ -28,9 +30,14 @@ public class EyeDestroyedCorruptionListener {
         EVENT.register((world, eyeId) -> {
             Entity entity = world.getEntityById(eyeId);
             if(entity != null) {
-                world.spawnEntity(new ItemEntity(world, entity.getX(), entity.getY(), entity.getZ(),
-                        new ItemStack(Rifts.Items.RIFT_EYE, 1)));
-                world.addFireworkParticle(entity.getX(), entity.getY(), entity.getZ(), 0, 2, 0, new NbtCompound());
+                ItemEntity item = new ItemEntity(world, entity.getX(), entity.getY(), entity.getZ(),
+                        new ItemStack(Rifts.Items.RIFT_EYE, 1));
+                item.setGlowing(true);
+                item.getStack().getOrCreateNbt().putBoolean("has_absorb", true);
+                if(new Random().nextInt(0, 100) < 100) {
+                    world.spawnEntity(item);
+                    world.addFireworkParticle(entity.getX(), entity.getY(), entity.getZ(), 0, 2, 0, new NbtCompound());
+                }
                 entity.discard();
             }
             return ActionResult.PASS;

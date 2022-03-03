@@ -1,21 +1,17 @@
 package com.florian.rifts.blocks;
 
-import com.florian.rifts.Rifts;
-import com.florian.rifts.util.AbstractCorruptedBlock;
+import com.florian.rifts.util.AbstractCorruptedElement;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class CorruptedBlock extends AbstractCorruptedBlock {
+public class CorruptedBlock extends AbstractCorruptedElement {
 
     private final Map<Block, Block> backwardTransformingMap = new HashMap<>();
 
@@ -23,12 +19,6 @@ public class CorruptedBlock extends AbstractCorruptedBlock {
         super(FabricBlockSettings.of(Material.AGGREGATE)
                 .strength(1000f, 18000000f)
                 .luminance(1));
-        this.setDefaultState(this.getDefaultState()
-                .with(SPREAD_WIDTH, MAX_SPREAD_WIDTH)
-                .with(ITEMS_EATEN, 0)
-                .with(DISCARDING, false)
-                .with(DOES_DROP_ITEM, false)
-        );
 
         backwardTransformingMap.put(Blocks.DIRT, Blocks.COARSE_DIRT);
         backwardTransformingMap.put(Blocks.GRASS_BLOCK, Blocks.COARSE_DIRT);
@@ -44,20 +34,8 @@ public class CorruptedBlock extends AbstractCorruptedBlock {
 
     }
 
-    public List<BlockPos> getNeighbors(BlockPos pos)
-    {
-        List<BlockPos> neighbors = new ArrayList<>();
-        neighbors.add(pos.up());
-        neighbors.add(pos.down());
-        neighbors.add(pos.west());
-        neighbors.add(pos.east());
-        neighbors.add(pos.north());
-        neighbors.add(pos.south());
-        return neighbors;
-    }
-
     @Override
-    public Block backwardReplacementMap(World world, Block old) {
+    public Block backwardReplacementMap(Block old) {
         if(backwardTransformingMap.containsKey(old))
         {
             return backwardTransformingMap.get(old);
@@ -66,12 +44,10 @@ public class CorruptedBlock extends AbstractCorruptedBlock {
     }
 
     @Override
-    public AbstractCorruptedBlock replacementMap(World world, BlockPos pos) {
+    public boolean doesReplace(World world, BlockPos pos) {
         Block toCorrupt = world.getBlockState(pos).getBlock();
-        if(!toCorrupt.equals(Blocks.AIR)
+        return (!toCorrupt.equals(Blocks.AIR)
                 && toCorrupt.getDefaultState().isFullCube(world, pos)
-                && !(world.getBlockState(pos).getBlock() instanceof AbstractCorruptedBlock))
-            return Rifts.Blocks.CORRUPTED_BLOCK;
-        return null;
+                && !(toCorrupt instanceof AbstractCorruptedElement));
     }
 }

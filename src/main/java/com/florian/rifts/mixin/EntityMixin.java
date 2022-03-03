@@ -4,6 +4,7 @@ import com.florian.rifts.Rifts;
 import com.florian.rifts.events.listeners.DropRiftEyeListener;
 import com.florian.rifts.events.listeners.ItemOnCorruptedBlockListener;
 import com.florian.rifts.events.listeners.WalksOnCorruptBlockListener;
+import com.florian.rifts.util.AbstractCorruptedElement;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
@@ -27,7 +28,7 @@ public class EntityMixin {
         if(self instanceof ItemEntity) {
             ItemEntity entity = (ItemEntity) self;
             //define what item it is and call the appropriate drop statement
-            if(onGround && landedState.getBlock().equals(Rifts.Blocks.CORRUPTED_BLOCK))
+            if(onGround && landedState.getBlock() instanceof AbstractCorruptedElement)
             {
                 ItemOnCorruptedBlockListener.EVENT.invoker().interact(entity, landedState, landedPosition);
             }

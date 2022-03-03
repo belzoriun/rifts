@@ -2,25 +2,18 @@ package com.florian.rifts.util.registerer.item;
 
 import com.florian.rifts.Rifts;
 import com.florian.rifts.util.GroupManager;
-import com.florian.rifts.util.registerer.IRegisterer;
-import com.florian.rifts.util.registerer.block.AbstractBlockRegisterer;
+import com.florian.rifts.util.registerer.AbstractRegisterer;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import java.util.ArrayList;
-import java.util.List;
+public class ItemRegisterer extends AbstractRegisterer<ItemRegisterer, Item> {
 
-public class ItemRegisterer implements IRegisterer<Item> {
-
-    private String name;
     private Item item;
-    private List<GroupManager> groups;
 
     public ItemRegisterer(String name)
     {
-        this.name=name;
-        this.groups = new ArrayList<>();
+        super(name);
     }
 
     public ItemRegisterer useItem(Item item)

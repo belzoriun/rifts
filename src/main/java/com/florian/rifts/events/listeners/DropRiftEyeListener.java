@@ -23,6 +23,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.PacketListener;
@@ -63,11 +64,12 @@ public abstract class DropRiftEyeListener {
         EVENT.register((entity) -> {
             World world = entity.world;
             if (entity.getItemAge() > 3 * 20 && !world.isClient()) {
-                entity.discard();
                 BlockPos pos = entity.getBlockPos();
-                pos = new BlockPos(pos.getX(), pos.getY() - 1, pos.getZ());
+                pos = pos.down();
                 BlockState oldBlock = world.getBlockState(pos);
-                if(oldBlock.getBlock().equals(Rifts.Blocks.CORRUPTED_BLOCK)) {
+                if(!oldBlock.getBlock().equals(Rifts.Blocks.CORRUPTED_BLOCK)
+                        && !entity.getStack().getOrCreateNbt().getBoolean("has_absorb")) {
+                    entity.discard();
                     world.setBlockState(pos, Rifts.Blocks.CORRUPTED_BLOCK.getDefaultState(), Block.NOTIFY_ALL);
                     BlockEntity bentity = world.getBlockEntity(pos);
                     if (bentity instanceof CorruptedBlockEntity) {
