@@ -37,7 +37,6 @@ public class GroupManager {
 
     public void createGroup()
     {
-        System.out.println(groupItems);
         builder.appendItems((stacks)->{
             for(ItemStack stack : groupItems)
             {

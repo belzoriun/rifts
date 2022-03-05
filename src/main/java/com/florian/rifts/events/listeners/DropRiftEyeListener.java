@@ -30,7 +30,10 @@ import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.packet.c2s.play.UpdateStructureBlockC2SPacket;
 import net.minecraft.network.packet.s2c.play.BlockUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.TickDurationMonitor;
@@ -44,6 +47,7 @@ import net.minecraft.world.WorldAccess;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public abstract class DropRiftEyeListener {
 
@@ -63,22 +67,38 @@ public abstract class DropRiftEyeListener {
     public static void registerEvent() {
         EVENT.register((entity) -> {
             World world = entity.world;
-            if (entity.getItemAge() > 3 * 20 && !world.isClient()) {
-                BlockPos pos = entity.getBlockPos();
-                pos = pos.down();
-                BlockState oldBlock = world.getBlockState(pos);
-                if(!oldBlock.getBlock().equals(Rifts.Blocks.CORRUPTED_BLOCK)
-                        && !entity.getStack().getOrCreateNbt().getBoolean("has_absorb")) {
-                    entity.discard();
-                    world.setBlockState(pos, Rifts.Blocks.CORRUPTED_BLOCK.getDefaultState(), Block.NOTIFY_ALL);
-                    BlockEntity bentity = world.getBlockEntity(pos);
-                    if (bentity instanceof CorruptedBlockEntity) {
-                        CorruptedBlockEntity centity = ((CorruptedBlockEntity) bentity);
-                        centity.setOldBlock(Registry.BLOCK.getId(oldBlock.getBlock()));
-                        centity.markDirty();
+            int effectAmplifier = (int)(Math.log(entity.getItemAge()*1.2+5)*3-3);
+            for(int i = 0; i<effectAmplifier; i++) {
+                Random r = new Random();
+                double x =  r.nextDouble(-effectAmplifier, effectAmplifier);
+                double y =  r.nextDouble(-effectAmplifier, effectAmplifier);
+                double z =  r.nextDouble(-effectAmplifier, effectAmplifier);
+                world.addParticle(ParticleTypes.SOUL,
+                        entity.getX()+entity.getWidth()/2+x,
+                        entity.getY()+entity.getHeight()/2+y,
+                        entity.getZ()+entity.getWidth()/2+z,
+                        -x*0.1, -y*0.1, -z*0.1f
+                );
+            }
+            if(entity.getItemAge() > 3*20) {
+                Random r = new Random();
+                world.addParticle(ParticleTypes.ANGRY_VILLAGER,
+                        entity.getX() - entity.getWidth() / 2,
+                        entity.getY() - entity.getHeight() / 2,
+                        entity.getZ() - entity.getWidth() / 2,
+                        r.nextFloat(0.1f), r.nextFloat(0.1f), r.nextFloat(0.1f)
+                );
+                world.playSound(entity.getX(), entity.getY(), entity.getZ()
+                        , SoundEvents.ENTITY_LIGHTNING_BOLT_IMPACT,
+                        SoundCategory.WEATHER, 30f, r.nextFloat(30), true);
+                if (!world.isClient()) {
+                    BlockPos pos = entity.getBlockPos();
+                    BlockState oldBlock = world.getBlockState(pos);
+                    if (!oldBlock.getBlock().equals(Rifts.Blocks.CORRUPTED_BLOCK)
+                            && !entity.getStack().getOrCreateNbt().getBoolean("has_absorb")) {
+                        entity.discard();
+                        Rifts.Blocks.CORRUPTED_CATALYST.startSpreading(world, pos);
                     }
-                    Rifts.Blocks.CORRUPTED_BLOCK.onPlaced(world, pos,
-                            Rifts.Blocks.CORRUPTED_BLOCK.getDefaultState(), null, new ItemStack(Rifts.Items.CORRUPTED_BLOCK));
                 }
             }
             return ActionResult.PASS;

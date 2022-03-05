@@ -1,6 +1,7 @@
 package com.florian.rifts.blocks;
 
-import com.florian.rifts.util.AbstractCorruptedElement;
+import com.florian.rifts.util.AbstractCorruptedBlock;
+import com.florian.rifts.util.AbstractCorruptedLiquid;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -11,7 +12,7 @@ import net.minecraft.world.World;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CorruptedBlock extends AbstractCorruptedElement {
+public class CorruptedBlock extends AbstractCorruptedBlock {
 
     private final Map<Block, Block> backwardTransformingMap = new HashMap<>();
 
@@ -47,7 +48,6 @@ public class CorruptedBlock extends AbstractCorruptedElement {
     public boolean doesReplace(World world, BlockPos pos) {
         Block toCorrupt = world.getBlockState(pos).getBlock();
         return (!toCorrupt.equals(Blocks.AIR)
-                && toCorrupt.getDefaultState().isFullCube(world, pos)
-                && !(toCorrupt instanceof AbstractCorruptedElement));
+                && (toCorrupt.getDefaultState().isFullCube(world, pos)));
     }
 }

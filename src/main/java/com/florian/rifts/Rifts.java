@@ -4,10 +4,8 @@ import com.florian.rifts.blocks.*;
 import com.florian.rifts.entity.block.CorruptedBlockEntity;
 import com.florian.rifts.events.listeners.DropRiftEyeListener;
 import com.florian.rifts.events.listeners.EyeDestroyedCorruptionListener;
-import com.florian.rifts.events.listeners.ItemOnCorruptedBlockListener;
-import com.florian.rifts.events.listeners.WalksOnCorruptBlockListener;
 import com.florian.rifts.items.*;
-import com.florian.rifts.util.AbstractCorruptedElement;
+import com.florian.rifts.util.Corruptor;
 import com.florian.rifts.util.CorruptedDamageSource;
 import com.florian.rifts.util.GroupManager;
 import com.florian.rifts.util.registerer.block.BlockRegisterer;
@@ -39,6 +37,7 @@ public class Rifts implements ModInitializer {
         public static CorruptedBlock CORRUPTED_BLOCK = new CorruptedBlock();
         public static BurnedLeaves BURNED_LEAVES = new BurnedLeaves();
         public static CorruptedLeaveBlock CORRUPTED_LEAVES = new CorruptedLeaveBlock();
+        public static CorruptedCatalyst CORRUPTED_CATALYST = new CorruptedCatalyst();
     }
 
     //entities
@@ -102,6 +101,14 @@ public class Rifts implements ModInitializer {
             .addToGroup(modGroup)
             .register();
 
+        Blocks.CORRUPTED_CATALYST = (CorruptedCatalyst) new BlockRegisterer("corrupted_catalyst",Blocks.CORRUPTED_CATALYST)
+                //.withItem(Items.CORRUPTED_BLOCK)
+                //.extractBlockItem(item->Items.CORRUPTED_BLOCK= (CorruptedBlockItem) item)
+                .withEntity(()-> CorruptedBlockEntity::new)
+                .extractBlockEntityType(type->Entities.CORRUPTED_BLOCK = type)
+                .addToGroup(modGroup)
+                .register();
+
         //register items
         Items.RIFT_EYE = (RiftEye) new ItemRegisterer("rift_eye")
             .useItem(Items.RIFT_EYE)
@@ -116,10 +123,8 @@ public class Rifts implements ModInitializer {
 
         //register events
         DropRiftEyeListener.registerEvent();
-        WalksOnCorruptBlockListener.registerEvent();
-        ItemOnCorruptedBlockListener.registerEvent();
         EyeDestroyedCorruptionListener.registerEvent();
 
-        AbstractCorruptedElement.addToMapping(Blocks.CORRUPTED_LEAVES);
+        Corruptor.addToMapping(Blocks.CORRUPTED_LEAVES);
     }
 }

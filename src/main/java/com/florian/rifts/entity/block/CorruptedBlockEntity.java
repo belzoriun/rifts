@@ -10,31 +10,27 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
+import org.apache.commons.compress.utils.Lists;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.IntFunction;
+import java.util.stream.Collectors;
 
 public class CorruptedBlockEntity extends BlockEntity {
 
-    private static final int  MAX_GROUP_ID = 5000;
-    private static List<Integer> attributedIds = new ArrayList<>();
-
     private Identifier oldBlock;
-    private int eyeId;
-    private int groupId;
+    private BlockPos parent;
+    private int eye;
+    private List<Long> children;
+    private int childLimit;
 
     public CorruptedBlockEntity(BlockPos pos, BlockState state) {
 
         super(Rifts.Entities.CORRUPTED_BLOCK, pos, state);
-        this.groupId = -1;
-    }
-
-    public static void freeId(int id)
-    {
-        if(attributedIds.contains(id))
-        {
-            attributedIds.remove(id);
-        }
+        this.children = new ArrayList<>();
+        this.childLimit = 10;
     }
 
     public void setOldBlock(Identifier id)
@@ -47,48 +43,52 @@ public class CorruptedBlockEntity extends BlockEntity {
         return oldBlock;
     }
 
-    public void setEyeId(int id)
+    public BlockPos getParent()
     {
-        this.eyeId = id;
+        return parent;
+    }
+
+    public void addChild(BlockPos pos)
+    {
+        this.children.add(pos.asLong());
+    }
+
+    public boolean canHasMoreChilds()
+    {
+        return children.size()<childLimit;
+    }
+
+    public List<BlockPos> getChildren()
+    {
+        List<BlockPos> res = new ArrayList<>();
+        for(long value : children)
+        {
+            res.add(BlockPos.fromLong(value));
+        }
+        return res;
+    }
+
+    public void setParent(BlockPos parent)
+    {
+        this.parent = parent;
+    }
+
+    public void setEye(int id) {
+        this.eye=id;
     }
 
     public int getEye()
     {
-        return this.eyeId;
-    }
-
-    public int getGroupId()
-    {
-        return groupId;
-    }
-    public void setGroupId(int id)
-    {
-        this.groupId = id;
-    }
-
-    public int generateGroupId()
-    {
-        if(attributedIds.size()>=MAX_GROUP_ID)
-        {
-            return -1;
-        }
-        for(int i = 0; i<= MAX_GROUP_ID; i++) {
-            if (!attributedIds.contains(i)) {
-                attributedIds.add(i);
-                this.groupId = i;
-                break;
-            }
-        }
-        System.out.println("attributed id "+groupId+" to group ("+(MAX_GROUP_ID-attributedIds.size())+" group ids left)");
-        return groupId;
+        return this.eye;
     }
 
     @Override
     public void writeNbt(NbtCompound tag) {
         // Save the current value of the number to the tag
         tag.putString("old_block", (oldBlock == null ? Registry.BLOCK.getId(Blocks.AIR) : oldBlock).toString());
-        tag.putInt("eye_id", eyeId);
-        tag.putInt("group_id", groupId);
+        tag.putLong("parent_catalyst", parent.asLong());
+        tag.putLongArray("children", children);
+        tag.putInt("child_limit", this.childLimit);
 
         super.writeNbt(tag);
     }
@@ -97,8 +97,10 @@ public class CorruptedBlockEntity extends BlockEntity {
     public void readNbt(NbtCompound tag) {
         // Save the current value of the number to the tag
         String id = tag.getString("old_block");
-        this.eyeId = tag.getInt("eye_id");
-        this.groupId = tag.getInt("group_id");
+        this.parent = BlockPos.fromLong(tag.getLong("parent_catalyst"));
+        long[] children = tag.getLongArray("children");
+        this.children = new ArrayList<>(Arrays.stream(children).boxed().collect(Collectors.toList()));
+        this.childLimit = tag.getInt("child_limit");
 
         this.oldBlock = Identifier.tryParse(id);
         super.readNbt(tag);
