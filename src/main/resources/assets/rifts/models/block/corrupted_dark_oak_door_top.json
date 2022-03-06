@@ -1,0 +1,7 @@
+{
+  "parent": "rifts:block/corrupted_door_top",
+  "textures": {
+    "top": "rifts:block/corrupted_dark_oak_door_top",
+    "bottom": "rifts:block/corrupted_dark_oak_door_bottom"
+  }
+}

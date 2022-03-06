@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/burned_pointed_dripstone",
+  "textures": {
+    "cross": "rifts:block/burned_pointed_dripstone_down_middle"
+  }
+}

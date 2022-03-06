@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/corrupted_cross",
+  "textures": {
+    "cross": "rifts:block/corrupted_crimson_roots"
+  }
+}

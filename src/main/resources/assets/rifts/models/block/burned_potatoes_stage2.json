@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/burned_crop",
+  "textures": {
+    "crop": "rifts:block/burned_potatoes_stage2"
+  }
+}

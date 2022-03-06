@@ -1,0 +1,8 @@
+{
+  "parent": "rifts:block/corrupted_orientable",
+  "textures": {
+    "top": "rifts:block/corrupted_pumpkin_top",
+    "front": "rifts:block/corrupted_jack_o_lantern",
+    "side": "rifts:block/corrupted_pumpkin_side"
+  }
+}

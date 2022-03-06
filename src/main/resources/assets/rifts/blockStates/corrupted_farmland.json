@@ -1,0 +1,7 @@
+{
+  "parent": "rifts:block/corrupted_template_farmland",
+  "textures": {
+    "dirt": "rifts:block/corrupted_dirt",
+    "top": "rifts:block/corrupted_farmland"
+  }
+}

@@ -42,7 +42,6 @@ public class GroupManager {
             {
                 stacks.add(stack);
             }
-            stacks.add(new ItemStack(Rifts.Blocks.CORRUPTED_BLOCK));
         }).build();
     }
 }

@@ -1,0 +1,8 @@
+{
+  "parent": "rifts:block/burned_slab",
+  "textures": {
+    "bottom": "rifts:block/burned_stone",
+    "top": "rifts:block/burned_stone",
+    "side": "rifts:block/burned_stone"
+  }
+}

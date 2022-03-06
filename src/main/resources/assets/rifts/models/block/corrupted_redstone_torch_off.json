@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/corrupted_template_torch",
+  "textures": {
+    "torch": "rifts:block/corrupted_redstone_torch_off"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "rifts:block/burned_template_farmland",
+  "textures": {
+    "dirt": "rifts:block/burned_dirt",
+    "top": "rifts:block/burned_farmland_moist"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "rifts:block/corrupted_slab",
+  "textures": {
+    "bottom": "rifts:block/corrupted_smooth_stone",
+    "top": "rifts:block/corrupted_smooth_stone",
+    "side": "rifts:block/corrupted_smooth_stone_slab_side"
+  }
+}

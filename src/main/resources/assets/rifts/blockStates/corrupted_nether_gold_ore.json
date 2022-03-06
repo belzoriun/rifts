@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/corrupted_cube_all",
+  "textures": {
+    "all": "rifts:block/corrupted_nether_gold_ore"
+  }
+}

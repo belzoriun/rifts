@@ -1,0 +1,12 @@
+{
+  "parent": "rifts:block/corrupted_cube_directional",
+  "textures": {
+    "particle": "rifts:block/corrupted_jigsaw_top",
+    "north": "rifts:block/corrupted_jigsaw_top",
+    "south": "rifts:block/corrupted_jigsaw_bottom",
+    "east": "rifts:block/corrupted_jigsaw_side",
+    "west": "rifts:block/corrupted_jigsaw_side",
+    "up": "rifts:block/corrupted_jigsaw_lock",
+    "down": "rifts:block/corrupted_jigsaw_side"
+  }
+}

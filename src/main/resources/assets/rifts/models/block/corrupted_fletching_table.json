@@ -1,0 +1,12 @@
+{
+  "parent": "rifts:block/corrupted_cube",
+  "textures": {
+    "particle": "rifts:block/corrupted_fletching_table_front",
+    "north": "rifts:block/corrupted_fletching_table_front",
+    "south": "rifts:block/corrupted_fletching_table_front",
+    "east": "rifts:block/corrupted_fletching_table_side",
+    "west": "rifts:block/corrupted_fletching_table_side",
+    "up": "rifts:block/corrupted_fletching_table_top",
+    "down": "rifts:block/corrupted_birch_planks"
+  }
+}

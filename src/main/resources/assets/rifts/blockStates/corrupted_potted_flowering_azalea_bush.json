@@ -1,0 +1,7 @@
+{
+  "parent": "rifts:block/corrupted_template_potted_azalea_bush",
+  "textures": {
+    "top": "rifts:block/corrupted_potted_flowering_azalea_bush_top",
+    "side": "rifts:block/corrupted_potted_flowering_azalea_bush_side"
+  }
+}

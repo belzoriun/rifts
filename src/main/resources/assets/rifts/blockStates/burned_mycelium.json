@@ -1,0 +1,8 @@
+{
+  "parent": "rifts:block/burned_cube_bottom_top",
+  "textures": {
+    "top": "rifts:block/burned_mycelium_top",
+    "bottom": "rifts:block/burned_dirt",
+    "side": "rifts:block/burned_mycelium_side"
+  }
+}

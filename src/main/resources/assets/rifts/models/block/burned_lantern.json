@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/burned_template_lantern",
+  "textures": {
+    "lantern": "rifts:block/burned_lantern"
+  }
+}

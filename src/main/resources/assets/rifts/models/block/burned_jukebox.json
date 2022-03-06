@@ -1,0 +1,7 @@
+{
+  "parent": "rifts:block/burned_cube_top",
+  "textures": {
+    "top": "rifts:block/burned_jukebox_top",
+    "side": "rifts:block/burned_jukebox_side"
+  }
+}

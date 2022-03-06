@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/corrupted_rail_flat",
+  "textures": {
+    "rail": "rifts:block/corrupted_detector_rail"
+  }
+}

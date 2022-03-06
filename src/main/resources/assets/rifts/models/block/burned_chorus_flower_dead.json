@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/burned_template_chorus_flower",
+  "textures": {
+    "texture": "rifts:block/burned_chorus_flower_dead"
+  }
+}

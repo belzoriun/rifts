@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/corrupted_coral_fan",
+  "textures": {
+    "fan": "rifts:block/corrupted_brain_coral_fan"
+  }
+}

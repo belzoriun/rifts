@@ -1,0 +1,9 @@
+{
+  "parent": "rifts:block/burned_orientable_with_bottom",
+  "textures": {
+    "top": "rifts:block/burned_loom_top",
+    "bottom": "rifts:block/burned_loom_bottom",
+    "side": "rifts:block/burned_loom_side",
+    "front": "rifts:block/burned_loom_front"
+  }
+}

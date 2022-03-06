@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/burned_template_single_face",
+  "textures": {
+    "texture": "rifts:block/burned_brown_mushroom_block"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/corrupted_leaves",
+  "textures": {
+    "all": "rifts:block/corrupted_acacia_leaves"
+  }
+}

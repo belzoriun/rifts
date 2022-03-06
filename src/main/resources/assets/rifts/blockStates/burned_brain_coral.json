@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/burned_cross",
+  "textures": {
+    "cross": "rifts:block/burned_brain_coral"
+  }
+}

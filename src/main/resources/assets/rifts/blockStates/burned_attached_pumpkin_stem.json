@@ -1,0 +1,7 @@
+{
+  "parent": "rifts:block/burned_stem_fruit",
+  "textures": {
+    "stem": "rifts:block/burned_pumpkin_stem",
+    "upperstem": "rifts:block/burned_attached_pumpkin_stem"
+  }
+}

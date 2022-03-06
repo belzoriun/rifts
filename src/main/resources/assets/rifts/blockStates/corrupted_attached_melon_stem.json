@@ -1,0 +1,7 @@
+{
+  "parent": "rifts:block/corrupted_stem_fruit",
+  "textures": {
+    "stem": "rifts:block/corrupted_melon_stem",
+    "upperstem": "rifts:block/corrupted_attached_melon_stem"
+  }
+}

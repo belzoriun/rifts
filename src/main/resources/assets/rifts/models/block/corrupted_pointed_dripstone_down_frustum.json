@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/corrupted_pointed_dripstone",
+  "textures": {
+    "cross": "rifts:block/corrupted_pointed_dripstone_down_frustum"
+  }
+}

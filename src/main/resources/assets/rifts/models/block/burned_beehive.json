@@ -1,0 +1,10 @@
+{
+  "parent": "rifts:block/burned_orientable_with_bottom",
+  "textures": {
+    "top": "rifts:block/burned_beehive_end",
+    "bottom": "rifts:block/burned_beehive_end",
+    "side": "rifts:block/burned_beehive_side",
+    "front": "rifts:block/burned_beehive_front",
+    "particle": "rifts:block/burned_beehive_side"
+  }
+}

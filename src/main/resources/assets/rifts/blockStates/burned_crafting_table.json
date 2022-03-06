@@ -1,0 +1,12 @@
+{
+  "parent": "rifts:block/burned_cube",
+  "textures": {
+    "particle": "rifts:block/burned_crafting_table_front",
+    "north": "rifts:block/burned_crafting_table_front",
+    "south": "rifts:block/burned_crafting_table_side",
+    "east": "rifts:block/burned_crafting_table_side",
+    "west": "rifts:block/burned_crafting_table_front",
+    "up": "rifts:block/burned_crafting_table_top",
+    "down": "rifts:block/burned_oak_planks"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "rifts:block/corrupted_cube",
+  "textures": {
+    "particle": "rifts:block/corrupted_cartography_table_side3",
+    "north": "rifts:block/corrupted_cartography_table_side3",
+    "south": "rifts:block/corrupted_cartography_table_side1",
+    "east": "rifts:block/corrupted_cartography_table_side3",
+    "west": "rifts:block/corrupted_cartography_table_side2",
+    "up": "rifts:block/corrupted_cartography_table_top",
+    "down": "rifts:block/corrupted_dark_oak_planks"
+  }
+}

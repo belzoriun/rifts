@@ -1,0 +1,7 @@
+{
+  "parent": "rifts:block/burned_template_daylight_detector",
+  "textures": {
+    "top": "rifts:block/burned_daylight_detector_top",
+    "side": "rifts:block/burned_daylight_detector_side"
+  }
+}

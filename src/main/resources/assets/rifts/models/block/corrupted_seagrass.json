@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/corrupted_template_seagrass",
+  "textures": {
+    "texture": "rifts:block/corrupted_seagrass"
+  }
+}

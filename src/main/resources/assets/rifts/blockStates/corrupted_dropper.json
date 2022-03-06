@@ -1,0 +1,8 @@
+{
+  "parent": "rifts:block/corrupted_orientable",
+  "textures": {
+    "top": "rifts:block/corrupted_furnace_top",
+    "front": "rifts:block/corrupted_dropper_front",
+    "side": "rifts:block/corrupted_furnace_side"
+  }
+}

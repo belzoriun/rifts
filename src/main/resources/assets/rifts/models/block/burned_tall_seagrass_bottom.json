@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/burned_template_seagrass",
+  "textures": {
+    "texture": "rifts:block/burned_tall_seagrass_bottom"
+  }
+}

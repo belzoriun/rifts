@@ -1,0 +1,7 @@
+{
+  "parent": "rifts:block/corrupted_cube_column",
+  "textures": {
+    "end": "rifts:block/corrupted_stripped_acacia_log_top",
+    "side": "rifts:block/corrupted_stripped_acacia_log"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "rifts:block/burned_template_azalea",
+  "textures": {
+    "top": "rifts:block/burned_flowering_azalea_top",
+    "side": "rifts:block/burned_flowering_azalea_side"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "rifts:block/corrupted_cube_top",
+  "textures": {
+    "top": "rifts:block/corrupted_jukebox_top",
+    "side": "rifts:block/corrupted_jukebox_side"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/burned_template_glazed_terracotta",
+  "textures": {
+    "pattern": "rifts:block/burned_pink_glazed_terracotta"
+  }
+}

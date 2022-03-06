@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/corrupted_template_glazed_terracotta",
+  "textures": {
+    "pattern": "rifts:block/corrupted_purple_glazed_terracotta"
+  }
+}

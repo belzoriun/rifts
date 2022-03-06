@@ -1,0 +1,9 @@
+{
+  "parent": "rifts:block/corrupted_orientable_with_bottom",
+  "textures": {
+    "top": "rifts:block/corrupted_loom_top",
+    "bottom": "rifts:block/corrupted_loom_bottom",
+    "side": "rifts:block/corrupted_loom_side",
+    "front": "rifts:block/corrupted_loom_front"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/burned_template_turtle_egg",
+  "textures": {
+    "all": "rifts:block/burned_turtle_egg"
+  }
+}

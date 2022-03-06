@@ -1,0 +1,8 @@
+{
+  "parent": "rifts:block/burned_orientable",
+  "textures": {
+    "top": "rifts:block/burned_blast_furnace_top",
+    "front": "rifts:block/burned_blast_furnace_front",
+    "side": "rifts:block/burned_blast_furnace_side"
+  }
+}

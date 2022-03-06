@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/corrupted_cube_all",
+  "textures": {
+    "all": "rifts:block/corrupted_structure_block_load"
+  }
+}

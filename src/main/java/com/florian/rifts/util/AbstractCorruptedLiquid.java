@@ -23,7 +23,7 @@ import java.util.Random;
 
 public abstract class AbstractCorruptedLiquid extends FlowableFluid implements ICorruptible, BlockEntityProvider {
 
-    private Corruptor manager;
+    protected Corruptor manager;
     public AbstractCorruptedLiquid(Item.Settings setting, int ticksBeforeSpreadTry) {
         manager = new Corruptor(ticksBeforeSpreadTry, false);
         this.setDefaultState(manager.getConfiguredDefaultState(this.getDefaultState().getBlockState()).getFluidState());

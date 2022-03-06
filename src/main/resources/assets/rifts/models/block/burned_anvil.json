@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/burned_template_anvil",
+  "textures": {
+    "top": "rifts:block/burned_anvil_top"
+  }
+}

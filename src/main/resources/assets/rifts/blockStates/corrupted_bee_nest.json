@@ -1,0 +1,10 @@
+{
+  "parent": "rifts:block/corrupted_orientable_with_bottom",
+  "textures": {
+    "top": "rifts:block/corrupted_bee_nest_top",
+    "bottom": "rifts:block/corrupted_bee_nest_bottom",
+    "side": "rifts:block/corrupted_bee_nest_side",
+    "front": "rifts:block/corrupted_bee_nest_front",
+    "particle": "rifts:block/corrupted_bee_nest_side"
+  }
+}

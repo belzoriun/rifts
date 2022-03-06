@@ -1,0 +1,7 @@
+{
+  "parent": "rifts:block/corrupted_template_azalea",
+  "textures": {
+    "top": "rifts:block/corrupted_azalea_top",
+    "side": "rifts:block/corrupted_azalea_side"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/burned_cube_all",
+  "textures": {
+    "all": "rifts:block/burned_oxidized_copper"
+  }
+}

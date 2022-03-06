@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/burned_cube_all",
+  "textures": {
+    "all": "rifts:block/burned_light_blue_stained_glass"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "rifts:block/burned_cube_directional",
+  "textures": {
+    "particle": "rifts:block/burned_jigsaw_top",
+    "north": "rifts:block/burned_jigsaw_top",
+    "south": "rifts:block/burned_jigsaw_bottom",
+    "east": "rifts:block/burned_jigsaw_side",
+    "west": "rifts:block/burned_jigsaw_side",
+    "up": "rifts:block/burned_jigsaw_lock",
+    "down": "rifts:block/burned_jigsaw_side"
+  }
+}

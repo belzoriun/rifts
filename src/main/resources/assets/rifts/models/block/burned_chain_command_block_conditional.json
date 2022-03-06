@@ -1,0 +1,8 @@
+{
+  "parent": "rifts:block/burned_template_command_block",
+  "textures": {
+    "front": "rifts:block/burned_chain_command_block_front",
+    "back": "rifts:block/burned_chain_command_block_back",
+    "side": "rifts:block/burned_chain_command_block_conditional"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/corrupted_template_single_face",
+  "textures": {
+    "texture": "rifts:block/corrupted_brown_mushroom_block"
+  }
+}

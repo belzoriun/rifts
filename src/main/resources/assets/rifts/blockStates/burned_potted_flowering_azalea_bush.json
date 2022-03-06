@@ -1,0 +1,7 @@
+{
+  "parent": "rifts:block/burned_template_potted_azalea_bush",
+  "textures": {
+    "top": "rifts:block/burned_potted_flowering_azalea_bush_top",
+    "side": "rifts:block/burned_potted_flowering_azalea_bush_side"
+  }
+}

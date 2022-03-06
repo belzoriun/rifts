@@ -1,0 +1,6 @@
+{
+  "parent": "rifts:block/burned_rail_curved",
+  "textures": {
+    "rail": "rifts:block/burned_rail_corner"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "rifts:block/corrupted_cube_bottom_top",
+  "textures": {
+    "top": "rifts:block/corrupted_grass_block_top",
+    "bottom": "rifts:block/corrupted_dirt",
+    "side": "rifts:block/corrupted_grass_block_snow",
+    "particle": "rifts:block/corrupted_dirt"
+  }
+}

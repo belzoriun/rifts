@@ -1,0 +1,7 @@
+{
+  "parent": "rifts:block/burned_door_top",
+  "textures": {
+    "top": "rifts:block/burned_crimson_door_top",
+    "bottom": "rifts:block/burned_crimson_door_bottom"
+  }
+}
